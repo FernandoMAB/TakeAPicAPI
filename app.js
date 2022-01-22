@@ -17,6 +17,16 @@ var connection = mysql.createConnection({
     port: 3306
 });
 
+app.get("/", async (req, res) => {
+  try {
+    
+    res.send('API de TakeAPIC')
+    
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+
 app.get("/likes/:id", async (req, res) => {
     try {
       const { id } = req.params;
