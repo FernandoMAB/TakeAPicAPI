@@ -226,6 +226,59 @@ app.get("/likes/:id", async (req, res) => {
     }
   });
 
+  app.get("/comments", async (req, res) => {
+    try {
+  
+      const sql = 'SELECT * FROM comments';
+
+        connection.query(sql,(error, results) =>{
+            if(error) throw error;
+            
+            res.json(results);
+            
+        })
+
+    } catch (err) {
+      console.error(err.message);
+    }
+  });
+
+  app.post("/comments", async (req, res) => {
+    try {
+        const sql = `INSERT INTO comments SET ?`;
+
+        const customerObj = {
+            user_id: req.body.user_id,
+            image_id: req.body.image_id,
+            content: req.body.content
+        }
+
+        connection.query(sql, customerObj, error => {
+            if(error) throw error;
+            res.send('comment created!')
+        })
+      
+    } catch (err) {
+      console.error(err.message);
+    }
+  });
+
+  app.delete("/comments/:id", async (req, res) => {
+    try {
+
+        const {id} = req.params;
+
+        const sql = `DELETE FROM comments WHERE id = ${id}`;
+
+        connection.query(sql, error => {
+            if(error) throw error;
+            res.send('Delete comments')
+        })
+    } catch (err) {
+      console.error(err.message);
+    }
+  });
+
 connection.connect(error =>{
     if(error){
         throw error;
